@@ -7,10 +7,10 @@
 #define MAX_DESCRICAO 100
 #define MAX_SITE 100
 #define MAX_TELEFONE 20
-#define MAX_FABRICANTES 1 // mudar para 5
-#define MAX_PRODUTOS 2    // mudar para 50
-#define MIN_FABRICANTES 1 // mudar para 2
-#define MIN_PRODUTOS 1    // mudar para 5
+#define MAX_FABRICANTES 5
+#define MAX_PRODUTOS 50    
+#define MIN_FABRICANTES 2
+#define MIN_PRODUTOS 5   
 
 struct Fabricante {
   char nome[MAX_DESCRICAO];
@@ -75,6 +75,9 @@ void imprimeAlfabeto(struct Produto **produtos, int numProdutos);
 void imprimeAlfabetoReverso(struct Produto **produtos, int numProdutos);
 
 int main() {
+
+    setlocale(LC_ALL, "Portuguese");
+
   system("cls");
   system("clear");
 
@@ -84,100 +87,101 @@ int main() {
   int numFabricantes = 0;
   int numProdutos = 0;
 
-  int opcao;
+  char op;
   do {
-    printf("------ Menu de Opcoes ------\n");
-    printf("1. Cadastrar Fabricantes\n");
-    printf("2. Cadastrar Produtos\n");
-    printf("3. Exibir Fabricantes Cadastrados\n");
-    printf("4. Exibir Produtos Cadastrados\n");
-    printf("5. Listar Marcas\n");
-    printf("6. Listar Produtos\n");
-    printf("7. Listar Produtos por Estado\n");
-    printf("8. Listar Produtos por Marca\n");
-    printf("9. Estado do Produto Mais Caro\n");
-    printf("10. Fabricante do Produto Mais Barato\n");
-    printf("11. Listar Produtos Ordenados por Valor de Venda\n");
-    printf("12. Listar Produtos em ordem alfabetica\n");
-    printf("13. Listar Produtos em ordem alfabetica reversa\n");
-    printf("0. Sair\n");
-    printf("Escolha uma opcao: ");
-    scanf("%d", &opcao);
+    printf("########## OPÇÕES DO MENU ##########\n");
+    printf("1  - Cadastrar Fabricantes; \n");
+    printf("2  - Cadastrar Produtos;\n");
+    printf("3  - Listar Fabricantes;\n");
+    printf("4  - Listar Produtos;\n");
+    printf("5  - Listar Marcas;\n");
+    printf("6  - Listar Produtos;\n");
+    printf("7  - Listar Produtos por UF;\n");
+    printf("8  - Listar Produtos por Marcas;\n");
+    printf("9  - UF do Produto Mais Caro;\n");
+    printf("10 - Fabricante do Produto Mais Barato;\n");
+    printf("11 - Listar Produtos Ordenados por Valor de Venda;\n");
+    printf("12 - Listar Produtos em Ordem Alfabetica;\n");
+    printf("13 - Listar Produtos em Ordem Alfabetica REVERSA;\n");
+    printf("0 - SAIR DO PROGRAMA\n");
+    printf("\n\nDIGITE A OPÇÃO DESEJADA: ");
+    scanf(" %c", &op);
 
-    switch (opcao) {
-    case 1:
+    switch (op) {
+    case '1':
       cadastrarFabricantes(fabricantes, &numFabricantes);
+
       break;
-    case 2:
+    case '2':
       cadastrarProdutos(produtos, numFabricantes, &numProdutos);
       break;
-    case 3:
+    case '3':
       system("cls");
       system("clear");
 
       exibirFabricantes(fabricantes, numFabricantes);
       break;
-    case 4:
+    case '4':
       system("cls");
       system("clear");
 
       exibirProdutos(produtos, numProdutos, fabricantes, numFabricantes);
       break;
-    case 5:
-      system("cls");   // para windows
-      system("clear"); // para linuz e macOs
+    case '5':
+      system("cls");    
+      system("clear"); 
 
       listarMarcas(fabricantes, numFabricantes);
       break;
-    case 6:
-      system("cls");   // para windows
-      system("clear"); // para linuz e macOs
+    case '6':
+      system("cls");   
+      system("clear"); 
 
       listarProdutos(produtos, numProdutos);
       break;
-    case 7:
-      system("cls");   // para windows
-      system("clear"); // para linuz e macOs
+    case '7':
+      system("cls");   
+      system("clear"); 
 
       listarProdutosEstado(produtos, numProdutos, fabricantes, numFabricantes);
       break;
-    case 8:
+    case '8':
       system("cls");
       system("clear");
       
       listarProdutosMarca(produtos, numProdutos, fabricantes, numFabricantes);
       break;
-    case 9:
-      system("cls");   // para windows
-      system("clear"); // para linuz e macOs
+    case '9':
+      system("cls");   
+      system("clear"); 
 
       estadoProdutoMaisCaro(produtos, numProdutos, fabricantes, numFabricantes);
       break;
-    case 10:
-      system("cls");   // para windows
-      system("clear"); // para linuz e macOs
+    case '10':
+      system("cls");   
+      system("clear"); 
 
       fabricanteProdutoMaisBarato(produtos, numProdutos, fabricantes,
                                   numFabricantes);
       break;
-    case 11:
+    case '11':
       system("cls");
       system("clear");
       
       listarProdutosOrdenadosValor(produtos, numProdutos);
       break;
-    case 12:
-      system("cls");   // para windows
-      system("clear"); // para linuz e macOs
+    case '12':
+      system("cls");   
+      system("clear"); 
 
       imprimeAlfabeto(produtos, numProdutos);
       break;
-    case 13:
+    case '13':
       system("cls");
       system("clear");
       imprimeAlfabetoReverso(produtos, numProdutos);
       break;
-    case 0:
+    case '0':
       system("cls");
       system("clear");
       
@@ -187,9 +191,9 @@ int main() {
       printf("Opcao invalida. Tente novamente.\n");
     }
     printf("\n");
-  } while (opcao != 0);
+  } while (op != '0');
 
-  // Libera a memória alocada
+  
   for (int i = 0; i < numFabricantes; i++) {
     free(fabricantes[i]);
   }
@@ -206,6 +210,61 @@ int main() {
 void calcularLucro(struct Produto *produto) {
   produto->valorLucro = produto->valorVenda - produto->valorCompra;
   produto->percentualLucro = (produto->valorLucro / produto->valorCompra) * 100;
+}
+
+
+void le_valida_valorCompra(struct Produto **produtos, int i) {
+  int loop = 0;
+
+  do {
+
+    if (loop == 0) {
+      printf("Digite o valor de COMPRA entre 0.50 e 8000: ");
+      scanf("%f", &(produtos[i]->valorCompra));
+      loop += 1;
+    } else {
+
+      printf("VALOR INVALIDO - Digite o valor de COMPRA entre 0.50 e 8000: ");
+      scanf("%f", &(produtos[i]->valorCompra));
+    }
+
+  } while (produtos[i]->valorCompra < 0.50 || produtos[i]->valorCompra > 8000);
+}
+
+void le_valida_valorVenda(struct Produto **produtos, int i) {
+  int loop = 0;
+
+  do {
+
+    if (loop == 0) {
+      printf("Digite o valor de VENDA entre 1 e 10000: ");
+      scanf("%f", &(produtos[i]->valorVenda));
+      loop += 1;
+
+    } else {
+
+      printf("VALOR INVALIDO - Digite o valor de VENDA entre 1 e 10000: ");
+      scanf("%f", &(produtos[i]->valorVenda));
+    }
+
+  } while (produtos[i]->valorVenda < 1 || produtos[i]->valorVenda > 10000);
+}
+
+void le_valida_peso(struct Produto **produtos, int i) {
+  int loop = 0;
+
+  do {
+    if (loop == 0) {
+      printf("Digite em gramas o PESO entre 50g e 50000g: ");
+      scanf("%f", &(produtos[i]->peso));
+      loop += 1;
+
+    } else {
+      printf("VALOR INVALIDO - Digite em gramas o PESO entre 50g e 50000g:");
+      scanf("%f", &(produtos[i]->peso));
+    }
+
+  } while (produtos[i]->peso < 50 || produtos[i]->peso > 50000);
 }
 
 int validarQuantidade(int min, int max, char *tipo) {
@@ -228,29 +287,35 @@ void cadastrarFabricantes(struct Fabricante **fabricantes,
   for (int i = 0; i < quantidade; i++) {
     fabricantes[*numFabricantes + i] = malloc(sizeof(struct Fabricante));
 
-    system("cls");   // para windows
-    system("clear"); // para linuz e macOs
+    system("cls");   
+    system("clear"); 
 
-    printf("> Fabricante %d:\n\n", *numFabricantes + i + 1);
+    printf("Fabricante %d:\n\n", *numFabricantes + i + 1);
 
-    printf("> Digite o nome: ");
+    printf("Digite o nome: ");
     scanf(" %[^\n]s", fabricantes[*numFabricantes + i]->nome);
 
-    printf("> Digite o site: ");
+    printf("Digite o site: ");
     scanf(" %[^\n]s", fabricantes[*numFabricantes + i]->site);
 
-    printf("> Digite o telefone: ");
+    printf("Digite o telefone: ");
     scanf(" %[^\n]s", fabricantes[*numFabricantes + i]->telefone);
 
     unidadeFederativa(fabricantes, i);
 
-    system("cls");   // para windows
-    system("clear"); // para linuz e macOs
+    system("cls");   
+    system("clear"); 
 
-    printf("------Fabricante cadastrado com sucesso------\n");
+    printf("------Fabricantes cadastrado com sucesso------\n");
   }
 
   *numFabricantes += quantidade;
+  printf("Pressione Enter para continuar...");
+    
+      fflush(stdin);
+      getchar();
+      system("cls");
+      system("clear");
 }
 
 enum uf_estados {
@@ -318,9 +383,9 @@ void cadastrarProdutos(struct Produto **produtos, int numFabricantes,
     system("cls");
     system("clear");
 
-    printf("> Produto %d:\n\n", *numProdutos + i + 1);
+    printf("Produto %d:\n\n", *numProdutos + i + 1);
 
-    printf("> Digite a descricao: ");
+    printf("Digite a descrição do Produto: ");
     scanf(" %[^\n]s", produtos[*numProdutos + i]->descricao);
 
     le_valida_peso(produtos, i);
@@ -340,6 +405,12 @@ void cadastrarProdutos(struct Produto **produtos, int numFabricantes,
   }
 
   *numProdutos += quantidade;
+  printf("Pressione Enter para continuar...");
+    
+      fflush(stdin);
+      getchar();
+      system("cls");
+      system("clear");
 }
 
 void exibirFabricantes(struct Fabricante **fabricantes, int numFabricantes) {
@@ -348,13 +419,20 @@ void exibirFabricantes(struct Fabricante **fabricantes, int numFabricantes) {
   for (int i = 0; i < numFabricantes; i++) {
 
     printf("##Fabricante %d##\n", i + 1);
-    printf("> Nome: %s\n", fabricantes[i]->nome);
-    printf("> Site: %s\n", fabricantes[i]->site);
-    printf("> Telefone: %s\n", fabricantes[i]->telefone);
-    printf("> Estado: %s\n", fabricantes[i]->estado);
+    printf("Nome: %s\n", fabricantes[i]->nome);
+    printf("Site: %s\n", fabricantes[i]->site);
+    printf("Telefone: %s\n", fabricantes[i]->telefone);
+    printf("Estado: %s\n", fabricantes[i]->estado);
 
     printf("\n");
   }
+
+  printf("Pressione Enter para continuar...");
+    
+      fflush(stdin);
+      getchar();
+      system("cls");
+      system("clear");
 }
 
 void exibirProdutos(struct Produto **produtos, int numProdutos,
@@ -363,16 +441,22 @@ void exibirProdutos(struct Produto **produtos, int numProdutos,
 
   for (int i = 0; i < numProdutos; i++) {
     printf("##Produto %d##\n", i + 1);
-    printf("> Descricao: %s\n", produtos[i]->descricao);
-    printf("> Peso: %.2f\n", produtos[i]->peso);
-    printf("> Valor de Compra: %.2f\n", produtos[i]->valorCompra);
-    printf("> Valor de Venda: %.2f\n", produtos[i]->valorVenda);
-    printf("> Valor de Lucro: %.2f\n", produtos[i]->valorLucro);
-    printf("> Percentual de Lucro: %.2f%%\n", produtos[i]->percentualLucro);
-    printf("> Fabricante: %s\n",
+    printf("Descricao: %s\n", produtos[i]->descricao);
+    printf("Peso: %.2f\n", produtos[i]->peso);
+    printf("Valor de Compra: %.2f\n", produtos[i]->valorCompra);
+    printf("Valor de Venda: %.2f\n", produtos[i]->valorVenda);
+    printf("Valor de Lucro: %.2f\n", produtos[i]->valorLucro);
+    printf("Percentual de Lucro: %.2f%%\n", produtos[i]->percentualLucro);
+    printf("Fabricante: %s\n",
            fabricantes[produtos[i]->fabricanteIndex]->nome);
     printf("\n");
   }
+  printf("Pressione Enter para continuar...");
+    
+      fflush(stdin);
+      getchar();
+      system("cls");
+      system("clear");
 }
 
 void listarMarcas(struct Fabricante **fabricantes, int numFabricantes) {
@@ -389,12 +473,18 @@ void listarProdutos(struct Produto **produtos, int numProdutos) {
   for (int i = 0; i < numProdutos; i++) {
     printf("%d. %s\n", i + 1, produtos[i]->descricao);
   }
+  printf("Pressione Enter para continuar...");
+    
+      fflush(stdin);
+      getchar();
+      system("cls");
+      system("clear");
 }
 
 void listarProdutosEstado(struct Produto **produtos, int numProdutos,
                           struct Fabricante **fabricantes, int numFabricantes) {
   char estado[3];
-  printf("> Digite o estado: ");
+  printf("Digite o estado: ");
   scanf(" %[^\n]s", estado);
 
   for (int i = 0; estado[i] != '\0'; i++) {
@@ -408,8 +498,8 @@ void listarProdutosEstado(struct Produto **produtos, int numProdutos,
   for (int i = 0; i < numProdutos; i++) {
     if (strcmp(fabricantes[produtos[i]->fabricanteIndex]->estado, estado) ==
         0) {
-      printf("> Produto: %s\n", produtos[i]->descricao);
-      printf("> Fabricante: %s\n",
+      printf("Produto: %s\n", produtos[i]->descricao);
+      printf("Fabricante: %s\n",
              fabricantes[produtos[i]->fabricanteIndex]->nome);
       encontrado = 1;
     }
@@ -418,6 +508,12 @@ void listarProdutosEstado(struct Produto **produtos, int numProdutos,
   if (!encontrado) {
     printf("-----Nenhum produto encontrado------\n");
   }
+  printf("Pressione Enter para continuar...");
+    
+      fflush(stdin);
+      getchar();
+      system("cls");
+      system("clear");
 }
 
 void listarProdutosMarca(struct Produto **produtos, int numProdutos,
@@ -442,6 +538,12 @@ void listarProdutosMarca(struct Produto **produtos, int numProdutos,
   if (!encontrado) {
     printf("Nenhum produto encontrado.\n");
   }
+  printf("Pressione Enter para continuar...");
+    
+      fflush(stdin);
+      getchar();
+      system("cls");
+      system("clear");
 }
 
 void estadoProdutoMaisCaro(struct Produto **produtos, int numProdutos,
@@ -461,9 +563,16 @@ void estadoProdutoMaisCaro(struct Produto **produtos, int numProdutos,
 
   if (encontrado) {
     printf("Estado do produto mais caro: %s\n", estado);
+
   } else {
     printf("Nenhum produto encontrado.\n");
   }
+  printf("Pressione Enter para continuar...");
+    
+      fflush(stdin);
+      getchar();
+      system("cls");
+      system("clear");
 }
 
 void fabricanteProdutoMaisBarato(struct Produto **produtos, int numProdutos,
@@ -484,7 +593,7 @@ void fabricanteProdutoMaisBarato(struct Produto **produtos, int numProdutos,
 }
 
 void listarProdutosOrdenadosValor(struct Produto **produtos, int numProdutos) {
-  // Ordena os produtos usando o algoritmo de seleção
+
   for (int i = 0; i < numProdutos - 1; i++) {
     int minIndex = i;
     for (int j = i + 1; j < numProdutos; j++) {
@@ -503,61 +612,14 @@ void listarProdutosOrdenadosValor(struct Produto **produtos, int numProdutos) {
     printf("%d. %s - R$%.2f\n", i + 1, produtos[i]->descricao,
            produtos[i]->valorVenda);
   }
+  printf("Pressione Enter para continuar...");
+    
+      fflush(stdin);
+      getchar();
+      system("cls");
+      system("clear");
 }
 
-void le_valida_valorCompra(struct Produto **produtos, int i) {
-  int loop = 0;
-
-  do {
-
-    if (loop == 0) {
-      printf("> Digite o valor de compra: ");
-      scanf("%f", &(produtos[i]->valorCompra));
-      loop += 1;
-    } else {
-
-      printf("> VALOR INVALIDO - Digite o valor de compra: ");
-      scanf("%f", &(produtos[i]->valorCompra));
-    }
-
-  } while (produtos[i]->valorCompra < 0.50 || produtos[i]->valorCompra > 8000);
-}
-
-void le_valida_valorVenda(struct Produto **produtos, int i) {
-  int loop = 0;
-
-  do {
-
-    if (loop == 0) {
-      printf("> Digite o valor de venda: ");
-      scanf("%f", &(produtos[i]->valorVenda));
-      loop += 1;
-
-    } else {
-
-      printf("> VALOR INVALIDO - Digite o valor de venda: ");
-      scanf("%f", &(produtos[i]->valorVenda));
-    }
-
-  } while (produtos[i]->valorVenda < 1 || produtos[i]->valorVenda > 10000);
-}
-
-void le_valida_peso(struct Produto **produtos, int i) {
-  int loop = 0;
-
-  do {
-    if (loop == 0) {
-      printf("> Digite em gramas o PESO entre 50g e 50000g: ");
-      scanf("%f", &(produtos[i]->peso));
-      loop += 1;
-
-    } else {
-      printf("> VALOR INVALIDO - em gramas o peso: ");
-      scanf("%f", &(produtos[i]->peso));
-    }
-
-  } while (produtos[i]->peso < 50 || produtos[i]->peso > 50000);
-}
 
 void imprimeAlfabeto(struct Produto **produtos, int numProdutos) {
   int i, j;
@@ -579,6 +641,12 @@ void imprimeAlfabeto(struct Produto **produtos, int numProdutos) {
       }
     }
   }
+  printf("Pressione Enter para continuar...");
+    
+      fflush(stdin);
+      getchar();
+      system("cls");
+      system("clear");
 }
 
 void imprimeAlfabetoReverso(struct Produto **produtos, int numProdutos) {
@@ -601,4 +669,10 @@ void imprimeAlfabetoReverso(struct Produto **produtos, int numProdutos) {
       }
     }
   }
+  printf("Pressione Enter para continuar...");
+    
+      fflush(stdin);
+      getchar();
+      system("cls");
+      system("clear");
 }
